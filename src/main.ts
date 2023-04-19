@@ -1,7 +1,33 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootstrapApplication } from "@angular/platform-browser";
+import { AppComponent } from "./app/app.component";
+import { importProvidersFrom } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { NZ_I18N, vi_VN } from "ng-zorro-antd/i18n";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { registerLocaleData } from "@angular/common";
+import vi from "@angular/common/locales/vi";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
-import { AppModule } from './app/app.module';
+registerLocaleData(vi);
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    { provide: NZ_I18N, useValue: vi_VN },
+    importProvidersFrom([
+      HttpClientModule,
+      BrowserAnimationsModule,
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+        }
+    }),
+    ])
+  ]
+})
