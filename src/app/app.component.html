@@ -1,9 +1,12 @@
-<!-- NG-ZORRO -->
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<div class="flex">
+  <div class="w-[270px]">
+    <app-sidebar></app-sidebar>
+  </div>
 
-<button nz-button (click)="setLanguge('vi')">VI</button>
-<button nz-button (click)="setLanguge('en')">EN</button>
-
-<p>{{ 'common.hello' | translate }}</p>
+  <div class="relative">
+    <app-header></app-header>
+    <div class="absolute p-[90px_30px_30px_30px]">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

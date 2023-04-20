@@ -8,6 +8,8 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { registerLocaleData } from "@angular/common";
 import vi from "@angular/common/locales/vi";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { provideRouter } from "@angular/router";
+import { APP_ROUTES } from "./app/app.router";
 
 registerLocaleData(vi);
 
@@ -18,6 +20,7 @@ export function createTranslateLoader(http: HttpClient) {
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: NZ_I18N, useValue: vi_VN },
+    provideRouter(APP_ROUTES),
     importProvidersFrom([
       HttpClientModule,
       BrowserAnimationsModule,

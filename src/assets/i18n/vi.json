@@ -2,5 +2,10 @@
   "common": {
     "hello": "Xin chào",
     "hi": "Chào"
+  },
+  "menu": {
+    "show_case": "Show Case",
+    "table_common": "Table Common",
+    "form_common": "Form Common"
   }
 }
