@@ -5,7 +5,9 @@
   },
   "menu": {
     "show_case": "Show Case",
-    "table_common": "Table Common",
-    "form_common": "Form Common"
+    "table": "Table Common",
+    "form": "Form Common",
+    "date_picker": "Date Picker",
+    "dashboard": "Dashborad"
   }
 }

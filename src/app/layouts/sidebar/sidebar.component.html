@@ -1,4 +1,4 @@
-<div class="h-[100vh]">
+<div class="h-[100vh] shadow-[0_2px_10px_0_rgba(0,0,0,.3)]">
   <!-- logo -->
   <div
     class="h-[var(--height-header)] flex justify-end bg-[linear-gradient(to_right,var(--primary-color),var(--secondary-color))]"
@@ -12,5 +12,40 @@
   </div>
 
   <!-- menu -->
-
+  <div class="bg-[var(--background-menu)] h-[calc(100%_-_var(--height-header))] pt-4 text-[var(--color-light)] font-semibold overflow-y-auto">
+    <ng-container *ngTemplateOutlet="renderMenu, context: { $implicit: MENU, level: 1} "></ng-container>
+  </div>
 </div>
+
+<ng-template #renderMenu let-menu let-level="level">
+  <ul>
+    <ng-container *ngFor="let item of menu">
+      <li
+        class="py-1 pr-5 relative flex items-center cursor-pointer hover:bg-[var(--background-hover)] select-none"
+        [style]="'padding-left: ' + level * 14 + 'px'"
+        [routerLink]="item.route"
+        (click)="item.isActive = !item.isActive"
+      >
+        <span>{{ item.label | translate }}</span>
+        <span
+          *ngIf="item.hasChildren"
+          class="leading-[12px] absolute right-5"
+        >
+          <span
+            nz-icon
+            nzType="right"
+            nzTheme="outline"
+            class="icon-toggle-menu"
+            [style]="{transform: item.isActive ? 'rotateZ(90deg)' : 'rotateZ(0)'}"
+          ></span>
+        </span>
+      </li>
+
+      <ng-container *ngIf="item.hasChildren && item.isActive">
+        <ng-container
+          *ngTemplateOutlet="renderMenu, context: { $implicit: item.children, level: level + 1} "
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </ul>
+</ng-template>
