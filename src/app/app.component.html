@@ -1,10 +1,10 @@
 <div class="flex">
-  <div class="w-[270px]">
-    <app-sidebar></app-sidebar>
+  <div [style]="{ left: isOpenSidebar ? 0 : '-270px' }" class="fixed z-[9999] w-[270px] transition-all duration-300">
+    <app-sidebar [isOpenSidebar]="isOpenSidebar"></app-sidebar>
   </div>
 
-  <div class="relative">
-    <app-header></app-header>
+  <div [style]="{ 'margin-left': isOpenSidebar ? '270px' : 0 }" class="relative flex-1 transition-all duration-300">
+    <app-header [(isOpenSidebar)]="isOpenSidebar"></app-header>
     <div class="absolute p-[90px_30px_30px_30px]">
       <router-outlet></router-outlet>
     </div>

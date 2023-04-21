@@ -1,1 +1,87 @@
-<p>header works!</p>
+<div class="wrap-header">
+  <div class="toggle-icon text-[26px] leading-[1]">
+    <span
+      class="cursor-pointer hover:text-[color:var(--primary-color)]"
+      *ngIf="isOpenSidebar"
+      (click)="toggleSidebar(false)"
+      nz-icon
+      nzType="menu-fold"
+      nzTheme="outline"
+    ></span>
+
+    <span
+      class="cursor-pointer hover:text-[color:var(--primary-color)]"
+      *ngIf="!isOpenSidebar"
+      (click)="toggleSidebar(true)"
+      nz-icon
+      nzType="menu-unfold"
+      nzTheme="outline"
+    ></span>
+  </div>
+
+  <div class="flex items-center">
+    <!-- Change language -->
+    <button
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      [nzTrigger]="'click'"
+      nzPlacement="bottomCenter"
+      class="mr-4"
+    >
+      <span
+        class="text-[22px] hover:text-[color:var(--primary-color)]"
+        nz-icon
+        nzType="global"
+        nzTheme="outline"
+      ></span>
+    </button>
+
+    <!-- User info -->
+    <button
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="featureUser"
+      [nzTrigger]="'click'"
+      nzPlacement="bottomCenter"
+      class="flex items-center"
+    >
+      <nz-avatar
+        nzIcon="user"
+        nzSrc="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"
+        class="mr-2"
+      ></nz-avatar>
+      Lê Văn Quyết
+    </button>
+  </div>
+</div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu class="py-1">
+    <li
+      nz-menu-item
+      class="px-4"
+      (click)="changeLanguage(LANGUAGE_ENUM.VI)"
+      *ngFor="let country of COUNTRYS"
+    >
+      <img
+        [src]="country.flag"
+        alt="Flag Việt Nam"
+        class="w-[35px] h-[35px] object-cover object-center mr-3"
+      />
+      {{ country.name }}
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #featureUser="nzDropdownMenu">
+  <ul nz-menu class="py-1">
+    <li
+      nz-menu-item
+      class="px-4"
+    >
+      <span nz-icon nzType="logout" nzTheme="outline" class="mr-1"></span>
+      Logout
+    </li>
+  </ul>
+</nz-dropdown-menu>

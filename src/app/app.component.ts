@@ -11,25 +11,16 @@ import { APP_IMPORT } from './app.import';
   imports: APP_IMPORT,
 })
 export class AppComponent implements OnInit {
+  isOpenSidebar = true;
+
   constructor (
     private translateService: TranslateService,
-    private i18nService: NzI18nService,
   ) {
     this.translateService.setDefaultLang('vi');
-    this.translateService.use('vi');
   }
 
   ngOnInit(): void {
 
-  }
-
-  setLanguge(language: string) {
-    this.translateService.use(language);
-    if (language === 'vi') {
-      this.i18nService.setLocale(vi_VN);
-    } else {
-      this.i18nService.setLocale(en_US);
-    }
   }
 
 }
