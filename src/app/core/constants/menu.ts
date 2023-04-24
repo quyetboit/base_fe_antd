@@ -7,7 +7,7 @@ export const MENU: Menu[] = [
     isActive: false,
     hasChildren: true,
     children: [
-      { label: 'menu.table', route: '/show-case/table', isActive: false, hasChildren: false },
+      { label: 'menu.table', route: 'show-table', isActive: false, hasChildren: false },
       { label: 'menu.form', route: '/show-case/form', isActive: false, hasChildren: false },
       { label: 'menu.date_picker', route: '/show-case/date-picker', isActive: false, hasChildren: false },
     ],

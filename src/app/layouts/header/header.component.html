@@ -1,5 +1,5 @@
-<div class="wrap-header">
-  <div class="toggle-icon text-[26px] leading-[1]">
+<div [style]="{ left: isOpenSidebar ? '270px' : '0' }" class="wrap-header">
+  <div class="toggle-icon text-[26px] leading-[1] z-50">
     <span
       class="cursor-pointer hover:text-[color:var(--primary-color)]"
       *ngIf="isOpenSidebar"

@@ -1,0 +1,30 @@
+<nz-table #table [nzData]="dataSource">
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of columns"
+      >
+        <ng-container *ngIf="column.headerTemplate; else headerNormal">
+          <ng-container *ngTemplateOutlet="column.headerTemplate"></ng-container>
+        </ng-container>
+
+        <ng-template #headerNormal>
+          <span> {{ column.header }}</span>
+        </ng-template>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of table.data">
+      <td *ngFor="let column of columns">
+        <ng-container *ngIf="column.cellTemplate; else cellNormal">
+          <ng-container *ngTemplateOutlet="column.cellTemplate"></ng-container>
+        </ng-container>
+
+        <ng-template #cellNormal>
+          <span> {{ data[column.renderKey] }} </span>
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
