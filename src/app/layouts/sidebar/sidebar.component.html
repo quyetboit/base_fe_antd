@@ -20,32 +20,48 @@
 <ng-template #renderMenu let-menu let-level="level">
   <ul>
     <ng-container *ngFor="let item of menu">
-      <li
-        class="py-1 pr-5 relative flex items-center cursor-pointer hover:bg-[var(--background-hover)] select-none"
-        [style]="'padding-left: ' + level * 14 + 'px'"
-        [routerLink]="item.route"
-        (click)="item.isActive = !item.isActive"
-      >
-        <span>{{ item.label | translate }}</span>
-        <span
-          *ngIf="item.hasChildren"
-          class="leading-[12px] absolute right-5"
+      <ng-container *ngIf="item.hasChildren; else noSubmenu">
+        <li
+          class="relative flex flex-col justify-items-center cursor-pointer select-none"
+          (click)="item.isActive = !item.isActive"
         >
           <span
-            nz-icon
-            nzType="right"
-            nzTheme="outline"
-            class="icon-toggle-menu"
-            [style]="{transform: item.isActive ? 'rotateZ(90deg)' : 'rotateZ(0)'}"
-          ></span>
-        </span>
-      </li>
+            class="block pr-5 hover:bg-[var(--background-hover)] py-1"
+            [style]="'padding-left: ' + level * 14 + 'px'"
+          >
+            {{ item.label | translate }}
+          </span>
+          <span
+            *ngIf="item.hasChildren"
+            class="leading-[12px] absolute right-5"
+          >
+            <span
+              nz-icon
+              nzType="right"
+              nzTheme="outline"
+              class="icon-toggle-menu"
+              [style]="{transform: item.isActive ? 'rotateZ(90deg)' : 'rotateZ(0)'}"
+            ></span>
+          </span>
 
-      <ng-container *ngIf="item.hasChildren && item.isActive">
-        <ng-container
-          *ngTemplateOutlet="renderMenu, context: { $implicit: item.children, level: level + 1} "
-        ></ng-container>
+          <ng-container *ngIf="item.hasChildren && item.isActive">
+            <ng-container
+              *ngTemplateOutlet="renderMenu, context: { $implicit: item.children, level: level + 1} "
+            ></ng-container>
+          </ng-container>
+        </li>
       </ng-container>
+
+      <ng-template #noSubmenu>
+        <li
+          class="py-1 pr-5 relative flex items-center cursor-pointer hover:bg-[var(--background-hover)] select-none"
+          [style]="'padding-left: ' + level * 14 + 'px'"
+          [routerLink]="item.route"
+          (click)="item.isActive = !item.isActive"
+        >
+          <span>{{ item.label | translate }}</span>
+        </li>
+      </ng-template>
     </ng-container>
   </ul>
 </ng-template>

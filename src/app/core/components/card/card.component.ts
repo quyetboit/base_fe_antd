@@ -14,5 +14,5 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 })
 export class CardComponent {
   @Input() title = '';
-  @Input() icon = '';
+  @Input() icon = 'folder-open';
 }
