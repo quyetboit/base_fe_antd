@@ -1,9 +1,11 @@
 <div class="p-[6px]">
-  <div class="flex items-center mb-2 p-4 border-[1px] border-[solid] border-[color:var(--border-color)] bg-[var(--main-background)] shadow-[0_1px_3px_rgba(0,0,0,.12)]">
-    <span class="text-[20px] leading-[1]" nz-icon [nzType]="icon" nzTheme="outline"></span>
-    <h1 class="ml-2">
-      {{ title }}
-    </h1>
+  <div class="p-4 border-[1px] border-[solid] border-[color:var(--border-color)] bg-[var(--main-background)] shadow-[0_1px_3px_rgba(0,0,0,.12)]">
+    <div class="flex items-center mb-2 font-[500]">
+      <span class="text-[20px] leading-[1]" nz-icon [nzType]="icon" nzTheme="outline"></span>
+      <h1 class="ml-2">
+        {{ title }}
+      </h1>
+    </div>
 
     <div class="content">
       <ng-content></ng-content>

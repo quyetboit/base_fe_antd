@@ -11,8 +11,6 @@ import { APP_IMPORT } from './app.import';
   imports: APP_IMPORT,
 })
 export class AppComponent implements OnInit {
-  isOpenSidebar = true;
-
   constructor (
     private translateService: TranslateService,
   ) {

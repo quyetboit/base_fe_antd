@@ -1,0 +1,14 @@
+<div class="p-[6px]">
+  <div class="p-4 border-[1px] border-[solid] border-[color:var(--border-color)] bg-[var(--main-background)] shadow-[0_1px_3px_rgba(0,0,0,.12)]">
+    <div class="flex items-center">
+      <span class="text-[color:var(--secondary-color)]" routerLink="/" nz-icon nzType="home" nzTheme="outline"></span>
+
+      <ng-container *ngIf="breadcrumbService.breadcrumb$ | async as segments">
+        <span *ngFor="let item of segments">
+          <span nz-icon nzType="right" nzTheme="outline"></span>
+          <span [routerLink]="item.router"> {{ item.title }} </span>
+        </span>
+      </ng-container>
+    </div>
+  </div>
+</div>
