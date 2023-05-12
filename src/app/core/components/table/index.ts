@@ -7,5 +7,6 @@ export * from './directives/cell.directive';
 export * from './directives/column.directive';
 export * from './directives/header.directive';
 export * from './table.component';
+export * from './pipes/check-include.pipe';
 
 export const TableCommonModule = [CellDirective, HeaderDirective, ColumnDirective, TableComponent]

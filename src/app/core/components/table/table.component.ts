@@ -1,10 +1,9 @@
 import { Component, ContentChildren, Input, Output, QueryList, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { TableImport } from './table.import';
 import { ColumnDirective } from './directives/column.directive';
-import { BehaviorSubject } from 'rxjs';
-import { TableQueryParamsChange } from './types/table-query-params-change.interface';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Pagination } from './types/paginable';
+import { difference, isEqual } from 'lodash';
 
 @Component({
   selector: 'app-table',
@@ -18,38 +17,88 @@ export class TableComponent {
   @Input() dataSource: any[] = [];
   @Input() showNO = true;
   @Input() paginate: Pagination = new Pagination();
+  @Input() showCheckbox = false;
+  @Input() uniqueField = '';
 
-  @Output() tableQueryChange = new EventEmitter<TableQueryParamsChange>();
+  @Output() tableQueryChange = new EventEmitter<Pagination>();
 
   @ContentChildren(ColumnDirective, { read: ColumnDirective }) columns!: QueryList<ColumnDirective>;
 
-  sort: { key: string, direction: string } = {
-    key: '',
-    direction: '',
-  }
+  isCheckedAll = false;
+  isIndeterminate = false;
+  listCheckedChange: any[] = [];
 
-  onSortOrderChange(field: string, direction: string | null) {
-    this.sort = {
-      key: field,
-      direction: direction || 'ascend'
+  handleCheckedAllChange(checkedAll: boolean) {
+    if (checkedAll) {
+      this.listCheckedChange.push(...this.dataSource);
+      this.listCheckedChange = [...this.listCheckedChange];
+    }
+
+    else {
+      this.listCheckedChange
+        = this.listCheckedChange.filter(item => {
+          !this.dataSource.some(each => item[this.uniqueField] === each[this.uniqueField])
+        });
     }
   }
 
+  onCheckedSingleChange(isChecked: boolean, data: any) {
+    if (isChecked) {
+      this.listCheckedChange.push(data);
+    }
+
+    else {
+      this.listCheckedChange.filter(item => {
+        console.log({item, data});
+
+        return item[this.uniqueField] !== data[this.uniqueField]
+      });
+    }
+
+    console.log('New data: ', this.listCheckedChange)
+
+    this.refreshCheckedAllStatus();
+  }
+
+  refreshCheckedAllStatus () {
+    if (this.listCheckedChange.length === 0) {
+      this.isCheckedAll = false;
+      this.isIndeterminate = false;
+      console.log('Return here')
+      return;
+    }
+
+    this.isCheckedAll
+      = this.listCheckedChange
+        .every(item => {
+          return this.dataSource.some(each => each[this.uniqueField] === item[this.uniqueField])
+        });
+
+    this.isIndeterminate
+      = this.listCheckedChange
+        .some(item => {
+          return this.dataSource.some(each => each[this.uniqueField] === item[this.uniqueField])
+        });
+  }
+
   onQueryParamChange(queryParams: NzTableQueryParams) {
-    this.tableQueryChange.emit({
-      pageIndex: queryParams.pageIndex,
-      pageSize: queryParams.pageSize,
-      sortField: this.sort.key,
-      sortDirection: this.sort.direction,
-    })
+    const currentFieldSort = queryParams.sort.find(item => !!item.value);
+
+    if (currentFieldSort) {
+      this.paginate.sortKey = currentFieldSort.key;
+      this.paginate.sortDirection = currentFieldSort.value || 'descend';
+    }
+
+    this.tableQueryChange.emit(this.paginate);
   }
 
   onPageIndexChange (index: number) {
-    console.log({index});
+    this.paginate.pageIndex = index - 1;
+    this.tableQueryChange.emit(this.paginate);
   }
 
   onPageSizeChange (size: number) {
-    console.log({size});
-
+    this.paginate.pageSize = size;
+    this.tableQueryChange.emit(this.paginate);
   }
 }

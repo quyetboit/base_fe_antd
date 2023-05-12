@@ -5,6 +5,7 @@ import { HeaderDirective } from "./directives/header.directive";
 import { NzTableModule } from "ng-zorro-antd/table";
 import { TranslateModule } from "@ngx-translate/core";
 import { NzPaginationModule } from "ng-zorro-antd/pagination";
+import { CheckIncludePipe } from "./pipes/check-include.pipe";
 
 export const TableImport = [
   ColumnDirective,
@@ -15,4 +16,5 @@ export const TableImport = [
   NzTableModule,
   NzPaginationModule,
   TranslateModule,
+  CheckIncludePipe,
 ]

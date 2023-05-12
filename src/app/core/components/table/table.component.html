@@ -11,7 +11,18 @@
 >
   <thead>
     <tr>
-      <th *ngIf="showNO" nzAlign="center" nzWidth="60px">
+      <th
+        *ngIf="showCheckbox"
+        [nzChecked]="isCheckedAll"
+        [nzIndeterminate]="isIndeterminate"
+        (nzCheckedChange)="handleCheckedAllChange($event)"
+        nzShowCheckbox
+        nzAlign="center"
+        nzWidth="60px"
+      >
+      </th>
+
+      <th *ngIf="showNO" nzAlign="center" nzWidth="50px">
         {{ 'common.no' | translate }}
       </th>
 
@@ -22,7 +33,7 @@
         [nzShowSort]="column.sortable"
         [nzSortFn]="true"
         [nzSortDirections]="['ascend', 'descend']"
-        (nzSortOrderChange)="onSortOrderChange(column.sortField || column.field, $event)"
+        [nzColumnKey]="column.sortField || column.field"
       >
         <ng-container *ngIf="column.headerTemplate; else headerNormal">
           <ng-container *ngTemplateOutlet="column.headerTemplate"></ng-container>
@@ -36,9 +47,18 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of table.data; index as i">
+      <td
+        *ngIf="showCheckbox"
+        [nzShowCheckbox]="true"
+        [nzChecked]="isCheckedAll || (data | checkInclude : listCheckedChange : uniqueField)"
+        (nzCheckedChange)="onCheckedSingleChange($event, data)"
+      >
+      </td>
+
       <td *ngIf="showNO" nzAlign="center">
         {{ paginate.pageIndex * paginate.pageSize + i + 1 }}
       </td>
+
       <td
         *ngFor="let column of columns"
         [nzAlign]="column.align"
