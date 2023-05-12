@@ -3,7 +3,9 @@
     <app-table
       [dataSource]="dataSource"
       [paginate]="paginate"
+      [showCheckbox]="true"
       (tableQueryChange)="onTableQueryChange($event)"
+      uniqueField="id"
     >
       <table-column
         [sortable]="true"

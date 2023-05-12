@@ -5,7 +5,6 @@ import { BreadcrumbService } from 'src/app/core/services/breadcrumb.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TableCommonModule } from 'src/app/core/components/table';
 import { Pagination } from 'src/app/core/components/table/types/paginable';
-import { TableQueryParamsChange } from 'src/app/core/components/table/types/table-query-params-change.interface';
 
 @Component({
   selector: 'app-show-table',
@@ -21,11 +20,11 @@ import { TableQueryParamsChange } from 'src/app/core/components/table/types/tabl
 export class ShowTableComponent implements OnInit {
 
   dataSource = [
-    { stt: 1, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
-    { stt: 1, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
-    { stt: 1, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
-    { stt: 1, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
-    { stt: 1, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
+    { id: 1, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
+    { id: 2, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
+    { id: 3, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
+    { id: 4, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
+    { id: 5, name: 'Lê Văn Quyết', age: 22, address: 'Ha Noi' },
   ]
 
   paginate = new Pagination();
@@ -47,7 +46,7 @@ export class ShowTableComponent implements OnInit {
     this.paginate.totalRecord = 93;
   }
 
-  onTableQueryChange(data: TableQueryParamsChange) {
+  onTableQueryChange(data: Pagination) {
     console.log('Data: ', data)
   }
 }
