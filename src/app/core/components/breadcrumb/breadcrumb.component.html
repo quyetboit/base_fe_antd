@@ -4,9 +4,17 @@
       <span class="text-[color:var(--secondary-color)]" routerLink="/" nz-icon nzType="home" nzTheme="outline"></span>
 
       <ng-container *ngIf="breadcrumbService.breadcrumb$ | async as segments">
-        <span *ngFor="let item of segments">
-          <span nz-icon nzType="right" nzTheme="outline"></span>
-          <span [routerLink]="item.router"> {{ item.title }} </span>
+        <span *ngFor="let item of segments" class="flex items-center">
+          <span class="mx-1" nz-icon nzType="right" nzTheme="outline"></span>
+          <span
+            [routerLink]="item.router"
+            [class]="{
+              'cursor-pointer': !item.isDisable,
+              'disable': item.isDisable,
+            }"
+          >
+            {{ item.title }}
+          </span>
         </span>
       </ng-container>
     </div>

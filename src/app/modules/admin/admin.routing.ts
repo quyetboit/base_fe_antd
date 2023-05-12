@@ -10,6 +10,7 @@ export const ADMIN_ROUTING: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'show-table', component: ShowTableComponent },
+      { path: '', redirectTo: 'show-table', pathMatch: "full" },
     ]
   }
 ]

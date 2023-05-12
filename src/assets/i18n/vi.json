@@ -9,5 +9,8 @@
     "form": "Form Common",
     "date_picker": "Date Picker",
     "dashboard": "Dashborad"
+  },
+  "show_table": {
+    "title": "Show table"
   }
 }
