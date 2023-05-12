@@ -1,8 +1,28 @@
-<nz-table #table [nzData]="dataSource">
+<nz-table
+  #table
+  [nzData]="dataSource"
+  [nzTotal]="paginate.totalRecord"
+  [nzShowPagination]="false"
+  [nzFooter]="pagination"
+  (nzQueryParams)="onQueryParamChange($event)"
+  nzSize="small"
+  nzTableLayout="fixed"
+  nzBordered
+>
   <thead>
     <tr>
+      <th *ngIf="showNO" nzAlign="center" nzWidth="60px">
+        {{ 'common.no' | translate }}
+      </th>
+
       <th
         *ngFor="let column of columns"
+        [nzAlign]="column.align"
+        [nzWidth]="column.width"
+        [nzShowSort]="column.sortable"
+        [nzSortFn]="true"
+        [nzSortDirections]="['ascend', 'descend']"
+        (nzSortOrderChange)="onSortOrderChange(column.sortField || column.field, $event)"
       >
         <ng-container *ngIf="column.headerTemplate; else headerNormal">
           <ng-container *ngTemplateOutlet="column.headerTemplate"></ng-container>
@@ -15,16 +35,40 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of table.data">
-      <td *ngFor="let column of columns">
+    <tr *ngFor="let data of table.data; index as i">
+      <td *ngIf="showNO" nzAlign="center">
+        {{ paginate.pageIndex * paginate.pageSize + i + 1 }}
+      </td>
+      <td
+        *ngFor="let column of columns"
+        [nzAlign]="column.align"
+      >
         <ng-container *ngIf="column.cellTemplate; else cellNormal">
-          <ng-container *ngTemplateOutlet="column.cellTemplate"></ng-container>
+          <ng-container *ngTemplateOutlet="column.cellTemplate; context: { $implicit: data }"></ng-container>
         </ng-container>
 
         <ng-template #cellNormal>
-          <span> {{ data[column.renderKey] }} </span>
+          <span> {{ data[column.field] }} </span>
         </ng-template>
       </td>
     </tr>
   </tbody>
 </nz-table>
+
+<ng-template #pagination>
+  <nz-pagination
+    class="flex justify-end"
+    [nzPageIndex]="paginate.pageIndex + 1"
+    [nzPageSize]="paginate.pageSize"
+    [nzTotal]="paginate.totalRecord"
+    [nzShowTotal]="total"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    nzShowSizeChanger
+    nzShowQuickJumper
+  ></nz-pagination>
+</ng-template>
+
+<ng-template #total let-total let-range="range">
+  {{ range[0] }} - {{ range[1] }} / {{ total }}
+</ng-template>

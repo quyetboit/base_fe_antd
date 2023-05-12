@@ -3,6 +3,8 @@ import { CellDirective } from "./directives/cell.directive";
 import { ColumnDirective } from "./directives/column.directive";
 import { HeaderDirective } from "./directives/header.directive";
 import { NzTableModule } from "ng-zorro-antd/table";
+import { TranslateModule } from "@ngx-translate/core";
+import { NzPaginationModule } from "ng-zorro-antd/pagination";
 
 export const TableImport = [
   ColumnDirective,
@@ -11,4 +13,6 @@ export const TableImport = [
 
   CommonModule,
   NzTableModule,
+  NzPaginationModule,
+  TranslateModule,
 ]

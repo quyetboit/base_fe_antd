@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: 'table-header',
+  selector: '[tableHeader]',
   standalone: true
 })
 export class HeaderDirective {

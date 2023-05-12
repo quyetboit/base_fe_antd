@@ -1,5 +1,31 @@
 <app-card title="Render table">
   <div>
-    content render here
+    <app-table
+      [dataSource]="dataSource"
+      [paginate]="paginate"
+      (tableQueryChange)="onTableQueryChange($event)"
+    >
+      <table-column
+        [sortable]="true"
+        sortField="name"
+      >
+        <ng-template tableHeader>
+          <span class="text-[red]">Full name</span>
+        </ng-template>
+
+        <ng-template tableCell let-data>
+          Data is {{ data.name }}
+        </ng-template>
+      </table-column>
+
+      <table-column
+        [sortable]="true"
+        header="Age"
+        field="age"
+        width="200px"
+        align="right"
+      >
+      </table-column>
+    </app-table>
   </div>
 </app-card>

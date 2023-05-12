@@ -1,7 +1,7 @@
 import { Directive, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: 'table-cell',
+  selector: '[tableCell]',
   standalone: true
 })
 export class CellDirective {

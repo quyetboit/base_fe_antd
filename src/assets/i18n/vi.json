@@ -1,7 +1,8 @@
 {
   "common": {
     "hello": "Xin chào",
-    "hi": "Chào"
+    "hi": "Chào",
+    "no": "STT"
   },
   "menu": {
     "show_case": "Show Case",
