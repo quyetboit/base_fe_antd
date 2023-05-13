@@ -1,9 +1,8 @@
-import { Component, ContentChildren, Input, Output, QueryList, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
+import { Component, ContentChildren, Input, Output, QueryList, ChangeDetectionStrategy, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TableImport } from './table.import';
 import { ColumnDirective } from './directives/column.directive';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Pagination } from './types/paginable';
-import { difference, isEqual } from 'lodash';
 
 @Component({
   selector: 'app-table',
@@ -11,7 +10,6 @@ import { difference, isEqual } from 'lodash';
   imports: TableImport,
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
   @Input() dataSource: any[] = [];
@@ -27,6 +25,14 @@ export class TableComponent {
   isCheckedAll = false;
   isIndeterminate = false;
   listCheckedChange: any[] = [];
+
+  constructor(
+    private cdf: ChangeDetectorRef,
+  ) {}
+
+  onSubmit() {
+    console.log('List checked: ', this.listCheckedChange)
+  }
 
   handleCheckedAllChange(checkedAll: boolean) {
     if (checkedAll) {
@@ -48,14 +54,10 @@ export class TableComponent {
     }
 
     else {
-      this.listCheckedChange.filter(item => {
-        console.log({item, data});
-
+      this.listCheckedChange = this.listCheckedChange.filter(item => {
         return item[this.uniqueField] !== data[this.uniqueField]
       });
     }
-
-    console.log('New data: ', this.listCheckedChange)
 
     this.refreshCheckedAllStatus();
   }
@@ -64,14 +66,13 @@ export class TableComponent {
     if (this.listCheckedChange.length === 0) {
       this.isCheckedAll = false;
       this.isIndeterminate = false;
-      console.log('Return here')
       return;
     }
 
     this.isCheckedAll
-      = this.listCheckedChange
+      = this.dataSource
         .every(item => {
-          return this.dataSource.some(each => each[this.uniqueField] === item[this.uniqueField])
+          return this.listCheckedChange.some(each => each[this.uniqueField] === item[this.uniqueField])
         });
 
     this.isIndeterminate

@@ -1,3 +1,4 @@
+<button (click)="onSubmit()">Submit</button>
 <nz-table
   #table
   [nzData]="dataSource"
@@ -14,7 +15,7 @@
       <th
         *ngIf="showCheckbox"
         [nzChecked]="isCheckedAll"
-        [nzIndeterminate]="isIndeterminate"
+        [nzIndeterminate]="!isCheckedAll && isIndeterminate"
         (nzCheckedChange)="handleCheckedAllChange($event)"
         nzShowCheckbox
         nzAlign="center"
@@ -50,7 +51,7 @@
       <td
         *ngIf="showCheckbox"
         [nzShowCheckbox]="true"
-        [nzChecked]="isCheckedAll || (data | checkInclude : listCheckedChange : uniqueField)"
+        [nzChecked]="isCheckedAll || (listCheckedChange | checkInclude : data : uniqueField)"
         (nzCheckedChange)="onCheckedSingleChange($event, data)"
       >
       </td>
