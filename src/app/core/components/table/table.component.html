@@ -1,10 +1,10 @@
-<button (click)="onSubmit()">Submit</button>
 <nz-table
   #table
   [nzData]="dataSource"
   [nzTotal]="paginate.totalRecord"
   [nzShowPagination]="false"
   [nzFooter]="pagination"
+  [nzLoading]="isLoading"
   (nzQueryParams)="onQueryParamChange($event)"
   nzSize="small"
   nzTableLayout="fixed"
@@ -51,7 +51,7 @@
       <td
         *ngIf="showCheckbox"
         [nzShowCheckbox]="true"
-        [nzChecked]="isCheckedAll || (listCheckedChange | checkInclude : data : uniqueField)"
+        [nzChecked]="isCheckedAll || (listDataChecked | checkInclude : data : uniqueField)"
         (nzCheckedChange)="onCheckedSingleChange($event, data)"
       >
       </td>

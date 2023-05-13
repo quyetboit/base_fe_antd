@@ -1,4 +1,4 @@
-import { Component, ContentChildren, Input, Output, QueryList, ChangeDetectionStrategy, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, ContentChildren, Input, Output, QueryList, ChangeDetectionStrategy, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
 import { TableImport } from './table.import';
 import { ColumnDirective } from './directives/column.directive';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
@@ -10,60 +10,68 @@ import { Pagination } from './types/paginable';
   imports: TableImport,
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent {
+export class TableComponent implements OnChanges {
   @Input() dataSource: any[] = [];
   @Input() showNO = true;
   @Input() paginate: Pagination = new Pagination();
   @Input() showCheckbox = false;
   @Input() uniqueField = '';
+  @Input() isLoading = false;
+  @Input() listDataChecked: any[] = [];
 
   @Output() tableQueryChange = new EventEmitter<Pagination>();
+  @Output() listDataCheckedChange = new EventEmitter<any[]>();;
 
   @ContentChildren(ColumnDirective, { read: ColumnDirective }) columns!: QueryList<ColumnDirective>;
 
   isCheckedAll = false;
   isIndeterminate = false;
-  listCheckedChange: any[] = [];
 
   constructor(
     private cdf: ChangeDetectorRef,
   ) {}
 
-  onSubmit() {
-    console.log('List checked: ', this.listCheckedChange)
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataSource']) {
+      this.updateChecked();
+    }
   }
 
   handleCheckedAllChange(checkedAll: boolean) {
+    this.isCheckedAll = checkedAll;
     if (checkedAll) {
-      this.listCheckedChange.push(...this.dataSource);
-      this.listCheckedChange = [...this.listCheckedChange];
+      this.listDataChecked.push(...this.dataSource);
     }
 
     else {
-      this.listCheckedChange
-        = this.listCheckedChange.filter(item => {
+      this.listDataChecked
+        = this.listDataChecked.filter(item => {
           !this.dataSource.some(each => item[this.uniqueField] === each[this.uniqueField])
         });
     }
+
+    this.listDataCheckedChange.emit(this.listDataChecked);
   }
 
   onCheckedSingleChange(isChecked: boolean, data: any) {
     if (isChecked) {
-      this.listCheckedChange.push(data);
+      this.listDataChecked.push(data);
     }
 
     else {
-      this.listCheckedChange = this.listCheckedChange.filter(item => {
+      this.listDataChecked = this.listDataChecked.filter(item => {
         return item[this.uniqueField] !== data[this.uniqueField]
       });
     }
 
-    this.refreshCheckedAllStatus();
+    this.listDataCheckedChange.emit(this.listDataChecked);
+    this.updateChecked();
   }
 
-  refreshCheckedAllStatus () {
-    if (this.listCheckedChange.length === 0) {
+  updateChecked () {
+    if (this.listDataChecked.length === 0) {
       this.isCheckedAll = false;
       this.isIndeterminate = false;
       return;
@@ -72,11 +80,11 @@ export class TableComponent {
     this.isCheckedAll
       = this.dataSource
         .every(item => {
-          return this.listCheckedChange.some(each => each[this.uniqueField] === item[this.uniqueField])
+          return this.listDataChecked.some(each => each[this.uniqueField] === item[this.uniqueField])
         });
 
     this.isIndeterminate
-      = this.listCheckedChange
+      = this.listDataChecked
         .some(item => {
           return this.dataSource.some(each => each[this.uniqueField] === item[this.uniqueField])
         });

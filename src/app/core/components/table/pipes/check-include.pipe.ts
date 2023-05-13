@@ -7,7 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CheckIncludePipe implements PipeTransform {
 
   transform(list: any[], obj: any, uniqueField: string): boolean {
-    console.log({obj, list, uniqueField})
     return list.some(item => item[uniqueField] === obj[uniqueField]);
   }
 }
