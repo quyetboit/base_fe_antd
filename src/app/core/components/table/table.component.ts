@@ -55,6 +55,7 @@ export class TableComponent implements OnChanges {
     this.listDataCheckedChange.emit(this.listDataChecked);
   }
 
+
   onCheckedSingleChange(isChecked: boolean, data: any) {
     if (isChecked) {
       this.listDataChecked.push(data);

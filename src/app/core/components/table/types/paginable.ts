@@ -16,6 +16,7 @@ export class Pagination {
     this.pageSize = pageSize;
     this.totalRecord = totalRecord;
     this.sortKey = sortKey;
+
     this.sortDirection = sortDirection;
   }
 }

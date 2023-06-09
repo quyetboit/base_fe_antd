@@ -10,6 +10,7 @@ import vi from "@angular/common/locales/vi";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { provideRouter } from "@angular/router";
 import { APP_ROUTES } from "./app/app.routing";
+import { InterceptorConfig } from "./app/core/interceptors";
 
 registerLocaleData(vi);
 
@@ -30,7 +31,8 @@ bootstrapApplication(AppComponent, {
           useFactory: (createTranslateLoader),
           deps: [HttpClient]
         }
-    }),
-    ])
+      }),
+    ]),
+    ...InterceptorConfig,
   ]
 })
